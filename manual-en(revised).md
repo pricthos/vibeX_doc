@@ -12,7 +12,8 @@ VibeX supports both standard email registration and Google social login for user
 * **Email Registration:** You can create an account by clicking **“Sign Up”** at the bottom of the login page. after agreeing to the required terms, complete the process by verifying your email through the confirmation message sent to your inbox. If you cannot find the verification email, please check your spam folder or confirm that there are no leading or trailing spaces in the email address you entered.
 * **Google Social Login:** You can quickly sign in by clicking **“Continue with Google.”**  
    If clicking the button only shows a blank screen, your browser may be blocking the authentication popup. Please allow popups and try again.
-![[Pasted image 20260316163124.png]]
+  
+![signup-login](https://stg-cdn.vibe-x.app/images/iVNfJw33EU-1773635732708.png)
    
 > 💡 **Having trouble accessing your account?**  
  If the sign-up button does not respond or the page keeps loading indefinitely, try temporarily disabling your browser’s **AdBlock extension** or access VibeX using **Incognito Mode**.

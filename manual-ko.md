@@ -1,6 +1,5 @@
 # VibeX 유저 매뉴얼
 **최종 수정일:** 2026년 3월 3일
-![VibeXLogo](https://stg-cdn.vibe-x.app/images/Pl5GPWuCQ3-1773223049367.png)
 ---
 
 ## 1. 시작하기 {#getting-started}

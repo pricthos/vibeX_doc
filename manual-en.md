@@ -28,28 +28,28 @@ VibeX supports both standard email registration and Google social login for user
 #### Pro, Ultra, Business, and Enterprise plan features and X usage
 **X** is the dedicated currency consumed for usage-based tasks such as AI-powered generation and code modification. Annual billing offers approximately a **20% discount**.
 
-### **1\. Pro Plan**
+### 1\. Pro Plan
 
 * **Monthly Billing:** $39.00 / month  
 * **Annual Billing:** $375 / year   
 * **Credits:** 390 X / month  
 * **Key Features:** Unlimited number of apps, In-app code editing. This plan is ideal for casual use or testing side projects.
 
-### **2\. Ultra Plan**
+### 2\. Ultra Plan
 
 * **Monthly Billing:** $99.00 / month  
 * **Annual Billing:** $950 / year  
 * **Credits:** 950 X / month  
 * **Key Features:** Backend functions, Custom domain connection, GitHub integration. This plan is designed for users preparing to run real production services.
 
-### **3\. Business Plan**
+### 3\. Business Plan
 
 * **Monthly Billing:** $299.00 / month  
 * **Annual Billing:** $2,870 / year  
 * **Credits:** 3,700 X / month  
 * **Key Features:** Recommended for teams with frequent updates and larger workloads that require higher X usage. Includes **early access to beta features**.
 
-### **4\. Enterprise Plan**
+### 4\. Enterprise Plan
 
 * **Monthly Billing:** Custom pricing  
 * **Annual Billing:** Custom pricing  

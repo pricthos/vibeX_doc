@@ -24,12 +24,12 @@ VibeX supports both standard email registration and Google social login for user
 * **Password Reset:** Request a reset link via “Forgot Password?” on the login page. For Google users, please change passwords directly in Google account settings.
 * **Data Removal:** Due to privacy policies, deleted data **cannot be recovered under any circumstances**. Before deleting your account, we strongly recommend exporting and backing up any important project code from the editor.
 
-### 1.3 Plans and X {\#pricing-and-x}
+### 1.3 Plans and X {#pricing-and-x}
 #### **Feature differences between Free, Pro, Ultra, Business, and Enterprise plans, and X consumption/recovery**
 
 X refers to the dedicated currency consumed when performing usage-based tasks such as AI-powered app planning, code generation, and modification within the VibeX platform. VibeX offers various plans, including a free plan, depending on your needs. You can receive an approximate 20% discount if you choose an annual subscription. Please note that the basic X provided monthly resets on your billing renewal date and does not roll over.
 
-#### 1. Free Plan
+### 1. Free Plan
 
 * **Monthly Billing:** None  
 * **Annual Billing:** None  

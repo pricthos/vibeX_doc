@@ -72,6 +72,8 @@ X refers to the dedicated currency consumed when performing usage-based tasks su
 
 If you have used all of your X while subscribed, you can purchase additional X. You can buy as many as you need without upgrading your plan. For every $1, you will receive 10 X, and no additional discounts apply.
 
+![payment](https://cdn.vibe-x.app/images/LKV89MHpLt-1773727620637.png)
+
 ### 1.5 Credit-Related Precautions
 
 * **Expiration of Basic X:** Please note that the basic X provided monthly through your plan resets on your billing renewal date and does not roll over to the next month.  
@@ -111,6 +113,8 @@ If working alone becomes difficult, you can invite teammates to collaborate on a
 * **Invite Team Members:** Click the **Share** button within the app and enter your colleague’s email address to send an invitation..
 * **Permission Settings:** Invited members can be granted different permissions depending on the administrator’s settings. They may receive **Editor access**, allowing them to modify code freely, or **Viewer access**, which allows them to view the project without making changes. If your project appears as **read-only**, please request a permission update from the workspace administrator.
 * **Ownership Limitation:** Currently, VibeX does **not support transferring full project ownership** to another user account.
+
+![team](https://cdn.vibe-x.app/images/HJeFcZ78We-1773727539412.png)
 
 ---
 

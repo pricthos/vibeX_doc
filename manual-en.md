@@ -259,7 +259,7 @@ When integrating external services, pay close attention to security settings.
     
 * **API Rate Limits:** To prevent abuse, if your app generates excessive traffic in a short period or calls external APIs abnormally, access may be temporarily restricted by the system’s built-in **rate limiting**.
 
-![payment](https://cdn.vibe-x.app/images/2OPTBSetzF-1773728756340.png)
+![secret](https://cdn.vibe-x.app/images/2OPTBSetzF-1773728756340.png)
 
 ### 6.3 GitHub Integration {#github-integration}
 #### Connecting Permissions and Exporting Source Code to Your Repository
@@ -289,6 +289,8 @@ You can deploy your app to the web instantly without complex server configuratio
 * **Applying Updates:** Changes made in the editor are **not automatically reflected** on the already deployed live server. After modifying the code, you must click the **“Publish”** button again to overwrite the previous deployment with the new version.  
     
 * **Initial Access Delay:** If you encounter a **404 error** immediately after deployment, it may be due to propagation delays across the global CDN network. Please wait **1–3 minutes**, clear your browser cache, and try accessing the URL again.
+
+![Publish](https://cdn.vibe-x.app/images/ixosOSjNv9-1773730841951.png)
 
 ### 7.2 Connecting a Custom Domain {#custom-domain}
 #### Configuring DNS and Automatic SSL (HTTPS) Setup

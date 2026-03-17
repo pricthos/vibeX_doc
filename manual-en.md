@@ -24,32 +24,40 @@ VibeX supports both standard email registration and Google social login for user
 * **Password Reset:** Request a reset link via “Forgot Password?” on the login page. For Google users, please change passwords directly in Google account settings.
 * **Data Removal:** Due to privacy policies, deleted data **cannot be recovered under any circumstances**. Before deleting your account, we strongly recommend exporting and backing up any important project code from the editor.
 
-### 1.3 Plans and X {#pricing-and-x}
-#### Pro, Ultra, Business, and Enterprise plan features and X usage
-**X** is the dedicated currency consumed for usage-based tasks such as AI-powered generation and code modification. Annual billing offers approximately a **20% discount**.
+### 1.3 Plans and X {\#pricing-and-x}
+#### **Feature differences between Free, Pro, Ultra, Business, and Enterprise plans, and X consumption/recovery**
 
-### 1. Pro Plan
+X refers to the dedicated currency consumed when performing usage-based tasks such as AI-powered app planning, code generation, and modification within the VibeX platform. VibeX offers various plans, including a free plan, depending on your needs. You can receive an approximate 20% discount if you choose an annual subscription. Please note that the basic X provided monthly resets on your billing renewal date and does not roll over.
+
+#### 1. Free Plan
+
+* **Monthly Billing:** None  
+* **Annual Billing:** None  
+* **Credits:** 100 X / one-time  
+* **Key Features:** A free plan that provides a one-time allocation of 100 X. There are restrictions on image/video generation and external API integrations, and the sharing feature is unavailable. Tasks expected to consume more credits than your remaining balance may not be executed (projects will not be created and changes will not be applied). If you lack X, further conversations will be blocked with an 'Insufficient X' message. Additionally, any remaining free credits will not roll over when upgrading to a paid plan.
+
+### 2. Pro Plan
 
 * **Monthly Billing:** $39.00 / month  
 * **Annual Billing:** $375 / year   
 * **Credits:** 390 X / month  
 * **Key Features:** Unlimited number of apps, In-app code editing. This plan is ideal for casual use or testing side projects.
 
-### 2. Ultra Plan
+### 3. Ultra Plan
 
 * **Monthly Billing:** $99.00 / month  
 * **Annual Billing:** $950 / year  
 * **Credits:** 950 X / month  
 * **Key Features:** Backend functions, Custom domain connection, GitHub integration. This plan is designed for users preparing to run real production services.
 
-### 3. Business Plan
+### 4. Business Plan
 
 * **Monthly Billing:** $299.00 / month  
 * **Annual Billing:** $2,870 / year  
 * **Credits:** 3,700 X / month  
 * **Key Features:** Recommended for teams with frequent updates and larger workloads that require higher X usage. Includes **early access to beta features**.
 
-### 4. Enterprise Plan
+### 5. Enterprise Plan
 
 * **Monthly Billing:** Custom pricing  
 * **Annual Billing:** Custom pricing  
@@ -64,6 +72,12 @@ VibeX supports both standard email registration and Google social login for user
 
 If you have used all of your X while subscribed, you can purchase additional X. You can buy as many as you need without upgrading your plan. For every $1, you will receive 10 X, and no additional discounts apply.
 
+### 1.5 Credit-Related Precautions
+
+* **Expiration of Basic X:** Please note that the basic X provided monthly through your plan resets on your billing renewal date and does not roll over to the next month.  
+* **Allowance for Overuse (Negative Balance):** Your credit balance can go into the negative depending on your usage (e.g., if the Pro plan limit is 390 X, your usage might exceed the limit like 420 / 390 X). If you upgrade your plan in this state, the excess usage will be deducted first.  
+* **Priority Use and Rollover of Additional X:** Credits topped up through purchasing additional X are used before your plan's basic credits, and the remaining balance rolls over as-is when upgrading your plan.  
+* **Plan Upgrade Settlement:** If you upgrade your plan during your subscription, the amount of credits used in the existing plan will be deducted before applying the new plan's credits (e.g., if you used 90 X while on the Pro plan and upgrade to Ultra, 90 X will be deducted from the new plan's limit, leaving a balance of 1,010 X).
 
 ---
 

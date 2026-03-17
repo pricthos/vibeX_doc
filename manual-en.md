@@ -259,6 +259,8 @@ When integrating external services, pay close attention to security settings.
     
 * **API Rate Limits:** To prevent abuse, if your app generates excessive traffic in a short period or calls external APIs abnormally, access may be temporarily restricted by the system’s built-in **rate limiting**.
 
+![payment](https://cdn.vibe-x.app/images/2OPTBSetzF-1773728756340.png)
+
 ### 6.3 GitHub Integration {#github-integration}
 #### Connecting Permissions and Exporting Source Code to Your Repository
 You can export and manage your generated code safely in GitHub. (This feature is available starting from the **Ultra plan**.)

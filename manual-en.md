@@ -29,35 +29,35 @@ VibeX supports both standard email registration and Google social login for user
 
 X refers to the dedicated currency consumed when performing usage-based tasks such as AI-powered app planning, code generation, and modification within the VibeX platform. VibeX offers various plans, including a free plan, depending on your needs. You can receive an approximate 20% discount if you choose an annual subscription. Please note that the basic X provided monthly resets on your billing renewal date and does not roll over.
 
-### 1. Free Plan
+**1\. Free Plan** 
 
 * **Monthly Billing:** None  
 * **Annual Billing:** None  
 * **Credits:** 100 X / one-time  
 * **Key Features:** A free plan that provides a one-time allocation of 100 X. There are restrictions on image/video generation and external API integrations, and the sharing feature is unavailable. Tasks expected to consume more credits than your remaining balance may not be executed (projects will not be created and changes will not be applied). If you lack X, further conversations will be blocked with an 'Insufficient X' message. Additionally, any remaining free credits will not roll over when upgrading to a paid plan.
 
-### 2. Pro Plan
+**2\. Pro Plan**
 
 * **Monthly Billing:** $39.00 / month  
 * **Annual Billing:** $375 / year   
 * **Credits:** 390 X / month  
 * **Key Features:** Unlimited number of apps, In-app code editing. This plan is ideal for casual use or testing side projects.
 
-### 3. Ultra Plan
+**3\. Ultra Plan**
 
 * **Monthly Billing:** $99.00 / month  
 * **Annual Billing:** $950 / year  
 * **Credits:** 950 X / month  
 * **Key Features:** Backend functions, Custom domain connection, GitHub integration. This plan is designed for users preparing to run real production services.
 
-### 4. Business Plan
+**4\. Business Plan**
 
 * **Monthly Billing:** $299.00 / month  
 * **Annual Billing:** $2,870 / year  
 * **Credits:** 3,700 X / month  
 * **Key Features:** Recommended for teams with frequent updates and larger workloads that require higher X usage. Includes **early access to beta features**.
 
-### 5. Enterprise Plan
+**5\. Enterprise Plan**
 
 * **Monthly Billing:** Custom pricing  
 * **Annual Billing:** Custom pricing  

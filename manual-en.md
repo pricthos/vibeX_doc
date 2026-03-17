@@ -13,7 +13,7 @@ VibeX supports both standard email registration and Google social login for user
 * **Google Social Login:** You can quickly sign in by clicking **“Continue with Google.”**  
    If clicking the button only shows a blank screen, your browser may be blocking the authentication popup. Please allow popups and try again.
 
-![signup-login](https://stg-cdn.vibe-x.app/images/iVNfJw33EU-1773635732708.png)
+![signup-login](https://cdn.vibe-x.app/images/dcT39hxTg6-1773727261392.png)
    
 > 💡 **Having trouble accessing your account?**  
  If the sign-up button does not respond or the page keeps loading indefinitely, try temporarily disabling your browser’s **AdBlock extension** or access VibeX using **Incognito Mode**.

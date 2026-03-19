@@ -24,24 +24,21 @@ VibeX supports both standard email registration and Google social login for user
 * **Password Reset:** Request a reset link via “Forgot Password?” on the login page. For Google users, please change passwords directly in Google account settings.
 * **Data Removal:** Due to privacy policies, deleted data **cannot be recovered under any circumstances**. Before deleting your account, we strongly recommend exporting and backing up any important project code from the editor.
 
-### 1.3 Plans and X {#pricing-and-x}
-
-**Feature differences between Free, Pro, Ultra, Business, and Enterprise plans, and X consumption/recovery**
-
-**What is 'X'?** X refers to the dedicated currency consumed when performing usage-based tasks such as AI-powered app planning, code generation, and modification within the VibeX platform. VibeX offers various plans, including a free plan, depending on your needs. You can receive an **approximate 20% discount if you choose an annual subscription**. Please note that the basic X provided monthly resets on your billing renewal date and does not roll over.
-
 **1. Free Plan**
 
-* **Monthly/Annual Billing:** None ($0)  
+* **Monthly Billing:** None  
+* **Annual Billing:** None  
 * **Credits:** 100 X / one-time  
 * **Monthly Visitors:** 200  
 * **Key Features:**  
+  * Global edge instant deployment support  
+  * Free domain (myapp.vibe-x.app) support  
+  * Responsive mobile support  
   * Basic AI logo auto-generation  
-  * Instant deployment, free domain (myapp.vibe-x.app) support, responsive mobile support  
+  * Limited AI image generation  
   * 3D and game creation features supported  
-  * Restrictions apply to image/video generation and external API integration; sharing feature is unavailable  
   * Maximum of 1 app can be created  
-  * Tasks expected to consume more credits than your remaining balance will not be executed, and further conversations will be blocked if X is insufficient  
+  * Tasks expected to consume more X than your remaining balance will not be executed, and further conversations will be blocked if X is insufficient  
   * Remaining free credits will not roll over when upgrading your plan
 
 **2. Pro Plan**
@@ -51,9 +48,16 @@ VibeX supports both standard email registration and Google social login for user
 * **Credits:** 390 X / month  
 * **Monthly Visitors:** 10,000  
 * **Key Features:**  
-  * **Unlimited app creation** and in-app code editing support  
-  * Global edge instant deployment, free domain provided, and custom domain connection  
-  * AI image/video generation, advanced 3D/game creation, Autofix (beta), AI Agent  
+  * Includes all features of the Free plan  
+  * Custom domain connection  
+  * Favicon & OG image generation  
+  * AI image/video generation  
+  * Advanced 3D creation  
+  * Advanced game creation  
+  * Admin console  
+  * External API integration  
+  * Autofix  
+  * AI Agent  
   * VibeX proprietary libraries provided (real-time chat, payment integration, Stripe PG)
 
 **3. Ultra Plan**
@@ -63,8 +67,8 @@ VibeX supports both standard email registration and Google social login for user
 * **Credits:** 1,100 X / month  
 * **Monthly Visitors:** 50,000  
 * **Key Features:**  
-  * Includes all features of the Pro plan  
-  * Additional support for essential advanced features like **Backend Functions** and **GitHub integration**
+  * Includes all features of the Pro plan
+ 
 
 **4. Business Plan**
 
@@ -74,16 +78,17 @@ VibeX supports both standard email registration and Google social login for user
 * **Monthly Visitors:** 200,000  
 * **Key Features:**  
   * Includes all features of the Ultra plan  
-  * **Team dashboard and domain sharing (beta)** features supported  
-  * Early access to beta features granted
+  * 5-account sharing feature  
+  * Team dashboard feature
 
 **5. Enterprise Plan**
 
-* **Billing & Credits:** Custom pricing (contact us)  
-* **Team Configuration:** Minimum of 5 members  
+* **Monthly/Annual Billing:** Custom pricing  
+* **Credits:** Custom  
+* **Configuration:** Team configuration requires a minimum of 5 members  
 * **Key Features:**  
-  * Includes all features of the Business plan  
-  * **Premium technical support** provided
+  * Includes all features of the Business plan
+
 
 ### 1.4 Purchase Additional X
 

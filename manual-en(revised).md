@@ -13,7 +13,7 @@ VibeX supports both standard email registration and Google social login for user
 * **Google Social Login:** You can quickly sign in by clicking **“Continue with Google.”**  
    If clicking the button only shows a blank screen, your browser may be blocking the authentication popup. Please allow popups and try again.
 
-![signup-login](https://stg-cdn.vibe-x.app/images/iVNfJw33EU-1773635732708.png)
+![signup-login](https://cdn.vibe-x.app/images/dcT39hxTg6-1773727261392.png)
    
 > 💡 **Having trouble accessing your account?**  
  If the sign-up button does not respond or the page keeps loading indefinitely, try temporarily disabling your browser’s **AdBlock extension** or access VibeX using **Incognito Mode**.
@@ -96,6 +96,8 @@ VibeX supports both standard email registration and Google social login for user
 
 If you have used all of your X while subscribed, you can purchase additional X. You can buy as many as you need without upgrading your plan. For every $1, you will receive 10 X, and no additional discounts apply.
 
+![payment](https://cdn.vibe-x.app/images/LKV89MHpLt-1773727620637.png)
+
 ### 1.5 Credit-Related Precautions
 
 * **Expiration of Basic X:** Please note that the basic X provided monthly through your plan resets on your billing renewal date and does not roll over to the next month.  
@@ -136,6 +138,8 @@ If working alone becomes difficult, you can invite teammates to collaborate on a
 * **Invite Team Members:** Click the **Share** button within the app and enter your colleague’s email address to send an invitation..
 * **Permission Settings:** Invited members can be granted different permissions depending on the administrator’s settings. They may receive **Editor access**, allowing them to modify code freely, or **Viewer access**, which allows them to view the project without making changes. If your project appears as **read-only**, please request a permission update from the workspace administrator.
 * **Ownership Limitation:** Currently, VibeX does **not support transferring full project ownership** to another user account.
+
+![team](https://cdn.vibe-x.app/images/HJeFcZ78We-1773727539412.png)
 
 ---
 
@@ -203,6 +207,8 @@ The editor is divided into three main tabs, each designed for a specific purpose
 * **Auto-Save:** The VibeX editor automatically saves code changes in the background whenever modifications are detected. However, if you refresh the page immediately after manually editing the code—before the preview panel updates—your changes may be lost.  
     
 * **Regeneration and Rollback:** When you enter a prompt to regenerate code, the existing code will be overwritten with the new version. If you prefer the previous result, you can use the **“Rollback”** option in the conversation history panel on the left to revert the project to an earlier state.
+
+![revert](https://cdn.vibe-x.app/images/euPmp6bD4i-1773818711086.png)
 
 ### 4.4 Asset Management {#asset-management}
 #### Uploading and Replacing Image files
@@ -280,6 +286,8 @@ When integrating external services, pay close attention to security settings.
     
 * **API Rate Limits:** To prevent abuse, if your app generates excessive traffic in a short period or calls external APIs abnormally, access may be temporarily restricted by the system’s built-in **rate limiting**.
 
+![secret](https://cdn.vibe-x.app/images/2OPTBSetzF-1773728756340.png)
+
 ### 6.3 GitHub Integration {#github-integration}
 #### Connecting Permissions and Exporting Source Code to Your Repository
 You can export and manage your generated code safely in GitHub. (This feature is available starting from the **Ultra plan**.)
@@ -308,6 +316,8 @@ You can deploy your app to the web instantly without complex server configuratio
 * **Applying Updates:** Changes made in the editor are **not automatically reflected** on the already deployed live server. After modifying the code, you must click the **“Publish”** button again to overwrite the previous deployment with the new version.  
     
 * **Initial Access Delay:** If you encounter a **404 error** immediately after deployment, it may be due to propagation delays across the global CDN network. Please wait **1–3 minutes**, clear your browser cache, and try accessing the URL again.
+
+![Publish](https://cdn.vibe-x.app/images/ixosOSjNv9-1773730841951.png)
 
 ### 7.2 Connecting a Custom Domain {#custom-domain}
 #### Configuring DNS and Automatic SSL (HTTPS) Setup

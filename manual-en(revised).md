@@ -24,55 +24,74 @@ VibeX supports both standard email registration and Google social login for user
 * **Password Reset:** Request a reset link via “Forgot Password?” on the login page. For Google users, please change passwords directly in Google account settings.
 * **Data Removal:** Due to privacy policies, deleted data **cannot be recovered under any circumstances**. Before deleting your account, we strongly recommend exporting and backing up any important project code from the editor.
 
-### **1.3 Plans and X {\#pricing-and-x}**
+### 1.3 Plans and X {#pricing-and-x}
 
-#### **Feature differences between Free, Pro, Ultra, Business, and Enterprise plans, and X consumption/recovery**
+**Feature differences between Free, Pro, Ultra, Business, and Enterprise plans, and X consumption/recovery**
 
-X refers to the dedicated currency consumed when performing usage-based tasks such as AI-powered app planning, code generation, and modification within the VibeX platform. VibeX offers various plans, including a free plan, depending on your needs. You can receive an approximate 20% discount if you choose an annual subscription. Please note that the basic X provided monthly resets on your billing renewal date and does not roll over.
+**What is 'X'?** X refers to the dedicated currency consumed when performing usage-based tasks such as AI-powered app planning, code generation, and modification within the VibeX platform. VibeX offers various plans, including a free plan, depending on your needs. You can receive an **approximate 20% discount if you choose an annual subscription**. Please note that the basic X provided monthly resets on your billing renewal date and does not roll over.
 
-#### **1\. Free Plan**
+**1. Free Plan**
 
-* **Monthly Billing:** None  
-* **Annual Billing:** None  
+* **Monthly/Annual Billing:** None ($0)  
 * **Credits:** 100 X / one-time  
-* **Key Features:** A free plan that provides a one-time allocation of 100 X. There are restrictions on image/video generation and external API integrations, and the sharing feature is unavailable. Tasks expected to consume more credits than your remaining balance may not be executed (projects will not be created and changes will not be applied). If you lack X, further conversations will be blocked with an 'Insufficient X' message. Additionally, any remaining free credits will not roll over when upgrading to a paid plan.
+* **Monthly Visitors:** 200  
+* **Key Features:**  
+  * Basic AI logo auto-generation  
+  * Instant deployment, free domain (myapp.vibe-x.app) support, responsive mobile support  
+  * 3D and game creation features supported  
+  * Restrictions apply to image/video generation and external API integration; sharing feature is unavailable  
+  * Maximum of 1 app can be created  
+  * Tasks expected to consume more credits than your remaining balance will not be executed, and further conversations will be blocked if X is insufficient  
+  * Remaining free credits will not roll over when upgrading your plan
 
-#### **2\. Pro Plan**
+**2. Pro Plan**
 
 * **Monthly Billing:** $39.00 / month  
-* **Annual Billing:** $375 / year  
+* **Annual Billing:** $375 / year (approx. $31 / month)  
 * **Credits:** 390 X / month  
-* **Key Features:** Unlimited number of apps, In-app code editing. This plan is ideal for casual use or testing side projects.
+* **Monthly Visitors:** 10,000  
+* **Key Features:**  
+  * **Unlimited app creation** and in-app code editing support  
+  * Global edge instant deployment, free domain provided, and custom domain connection  
+  * AI image/video generation, advanced 3D/game creation, Autofix (beta), AI Agent  
+  * VibeX proprietary libraries provided (real-time chat, payment integration, Stripe PG)
 
-#### **3\. Ultra Plan**
+**3. Ultra Plan**
 
 * **Monthly Billing:** $99.00 / month  
-* **Annual Billing:** $950 / year  
-* **Credits:** 950 X / month  
-* **Key Features:** Backend functions, Custom domain connection, GitHub integration. This plan is designed for users preparing to run real production services.
+* **Annual Billing:** $950 / year (approx. $79 / month)  
+* **Credits:** 1,100 X / month  
+* **Monthly Visitors:** 50,000  
+* **Key Features:**  
+  * Includes all features of the Pro plan  
+  * Additional support for essential advanced features like **Backend Functions** and **GitHub integration**
 
-#### **4\. Business Plan**
+**4. Business Plan**
 
 * **Monthly Billing:** $299.00 / month  
-* **Annual Billing:** $2,870 / year  
+* **Annual Billing:** $2,870 / year (approx. $239 / month)  
 * **Credits:** 3,700 X / month  
-* **Key Features:** Recommended for teams with frequent updates and larger workloads that require higher X usage. Includes **early access to beta features**.
+* **Monthly Visitors:** 200,000  
+* **Key Features:**  
+  * Includes all features of the Ultra plan  
+  * **Team dashboard and domain sharing (beta)** features supported  
+  * Early access to beta features granted
 
-#### **5\. Enterprise Plan**
+**5. Enterprise Plan**
 
-* **Monthly Billing:** Custom pricing  
-* **Annual Billing:** Custom pricing  
-* **Credits:** Custom  
-* **Key Features:** The highest-tier plan for teams requiring large-scale generation and premium support. Includes **all Business plan features plus priority technical support**.  
-* **Configuration:** Team Requirement: Minimum of 5 members required.
+* **Billing & Credits:** Custom pricing (contact us)  
+* **Team Configuration:** Minimum of 5 members  
+* **Key Features:**  
+  * Includes all features of the Business plan  
+  * **Premium technical support** provided
 
-### **1.4 Purchase Additional X**
+### 1.4 Purchase Additional X
 
-#### **When Your X Is Used Up During a Subscription**
+#### When Your X Is Used Up During a Subscription
 
 If you have used all of your X while subscribed, you can purchase additional X. You can buy as many as you need without upgrading your plan. For every $1, you will receive 10 X, and no additional discounts apply.
 
-### **1.5 Credit-Related Precautions**
+### 1.5 Credit-Related Precautions
 
 * **Expiration of Basic X:** Please note that the basic X provided monthly through your plan resets on your billing renewal date and does not roll over to the next month.  
 * **Allowance for Overuse (Negative Balance):** Your credit balance can go into the negative depending on your usage (e.g., if the Pro plan limit is 390 X, your usage might exceed the limit like 420 / 390 X). If you upgrade your plan in this state, the excess usage will be deducted first.  
@@ -96,7 +115,7 @@ The **Dashboard** is the main workspace you see immediately after logging into V
 #### Create new apps, edit project details, duplicate, or delete projects
 * **Create a New Project:** home \> apps button \> Click the **“+ New App (or New Project)”** button in the upper-right corner of the dashboard to start a new project from scratch.
 * **Edit Name and Project Information:** You can change the project name from the editor header or project settings. To save the change, press **Enter** or click outside the input field. Project descriptions are automatically saved after a short delay.
-* **Duplicate a Project:** If you want to reuse an existing app’s layout or code, open the **three-dot (More)** menu on the project card and select **Duplicate** to create an identical copy.
+* **Duplicate a Project:** If you want to reuse an existing app’s layout or code, open the three-dot (More) menu on the project card and select Duplicate to create an identical copy. Please note that duplicating an app will deduct 30 X from your balance.
 * **Delete a Project:** You can delete a project by selecting **Delete** from the same menu.  
   ⚠️ **Important:**  
    Once deleted, the project and its code are permanently removed from the server and **cannot be recovered**. Please proceed carefully.

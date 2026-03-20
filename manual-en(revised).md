@@ -22,7 +22,7 @@ VibeX supports both standard email registration and Google social login for user
 ### 1.2 Account Settings {#account-settings}
 #### Profile management, password reset, and dava removal
 * **Password Reset:** Request a reset link via “Forgot Password?” on the login page. For Google users, please change passwords directly in Google account settings.
-* **Data Removal:** Due to privacy policies, deleted data **cannot be recovered under any circumstances**. Before deleting your account, we strongly recommend exporting and backing up any important project code from the editor.
+* **Data Removal:** Due to privacy policies, deleted data **cannot be recovered under any circumstances**. Before deleting your account, we strongly recommend exporting and backing up any important app code from the editor.
 
 **1. Free Plan**
 
@@ -108,36 +108,36 @@ If you have used all of your X while subscribed, you can purchase additional X. 
 
 ---
 
-## 2. Manage Projects & Dashboard {#dashboard}
+## 2. Manage apps & Dashboard {#dashboard}
 The **Dashboard** is the main workspace you see immediately after logging into VibeX.  
- It allows you to organize and manage multiple project ideas in one place.
+ It allows you to organize and manage multiple app ideas in one place.
 
 ### 2.1 Dashboard Overview & Navigation {#dashboard-overview}
-#### View your app list, search projects, and use the “Continue where you left off” feature
-* **Continue Where You Left Off:** Located in the center of the screen after clicking **Home \> Apps**, this section displays the project cards you were recently working on. With a single click, you can quickly return to the editor and resume your work.
+#### View your app list, search apps, and use the “Continue where you left off” feature
+* **Continue Where You Left Off:** Located in the center of the screen after clicking **Home > Apps**, this section displays the app cards you were recently working on. With a single click, you can quickly return to the editor and resume your work.
 
-* **App List & Search:** Use the **“Search apps…”** bar at the top to quickly find a specific project. You can also mark preferred apps with a **star (☆)** and filter the list to view only your favorites.
+* **App List & Search:** Use the **“Search apps…”** bar at the top to quickly find a specific app. You can also mark preferred apps with a **star (☆)** and filter the list to view only your favorites.
 
-### 2.2 Creating and Managing Apps (Projects) {#manage-projects}
-#### Create new apps, edit project details, duplicate, or delete projects
-* **Create a New Project:** home \> apps button \> Click the **“+ New App (or New Project)”** button in the upper-right corner of the dashboard to start a new project from scratch.
-* **Edit Name and Project Information:** You can change the project name from the editor header or project settings. To save the change, press **Enter** or click outside the input field. Project descriptions are automatically saved after a short delay.
-* **Duplicate a Project:** If you want to reuse an existing app’s layout or code, open the three-dot (More) menu on the project card and select Duplicate to create an identical copy. Please note that duplicating an app will deduct 30 X from your balance.
-* **Delete a Project:** You can delete a project by selecting **Delete** from the same menu.  
+### 2.2 Creating and Managing Apps {#manage-projects}
+#### Create new apps, edit app details, duplicate, or delete apps
+* **Create a New app:** home > apps button > Click the **“+ New App”** button in the upper-right corner of the dashboard to start a new app from scratch.
+* **Edit Name and app Information:** You can change the app name from the editor header or app settings. To save the change, press **Enter** or click outside the input field. app descriptions are automatically saved after a short delay.
+* **Duplicate an app:** If you want to reuse an existing app’s layout or code, open the three-dot (More) menu on the app card and select Duplicate to create an identical copy. Please note that duplicating an app will deduct 30 X from your balance.
+* **Delete an app:** You can delete an app by selecting **Delete** from the same menu.  
   ⚠️ **Important:**  
-   Once deleted, the project and its code are permanently removed from the server and **cannot be recovered**. Please proceed carefully.
+   Once deleted, the app and its code are permanently removed from the server and **cannot be recovered**. Please proceed carefully.
 
->💡 **Project Management Tip** Currently, VibeX does not support a dedicated **folder system**.  
- If you have many projects, we recommend using consistent naming conventions with brackets, such as: `[E-commerce] Main Page,[Portfolio] Contact Form`  
-This makes searching and managing projects much easier.
+>💡 **app Management Tip** Currently, VibeX does not support a dedicated **folder system**.  
+ If you have many apps, we recommend using consistent naming conventions with brackets, such as: `[E-commerce] Main Page,[Portfolio] Contact Form`  
+This makes searching and managing apps much easier.
 
 ### 2.3 Team Workspace {#team-workspace}
 #### Collaborate by inviting team members and assigning permissions (Editor or Viewer)
-If working alone becomes difficult, you can invite teammates to collaborate on a project together.
+If working alone becomes difficult, you can invite teammates to collaborate on an app together.
 
 * **Invite Team Members:** Click the **Share** button within the app and enter your colleague’s email address to send an invitation..
-* **Permission Settings:** Invited members can be granted different permissions depending on the administrator’s settings. They may receive **Editor access**, allowing them to modify code freely, or **Viewer access**, which allows them to view the project without making changes. If your project appears as **read-only**, please request a permission update from the workspace administrator.
-* **Ownership Limitation:** Currently, VibeX does **not support transferring full project ownership** to another user account.
+* **Permission Settings:** Invited members can be granted different permissions depending on the administrator’s settings. They may receive **Editor access**, allowing them to modify code freely, or **Viewer access**, which allows them to view the app without making changes. If your app appears as **read-only**, please request a permission update from the workspace administrator.
+* **Ownership Limitation:** Currently, VibeX does **not support transferring full app ownership** to another user account.
 
 ![team](https://cdn.vibe-x.app/images/HJeFcZ78We-1773727539412.png)
 
@@ -150,14 +150,14 @@ You can start planning and building an app with AI using only text prompts—wit
 #### Designing UI and Feature Structure with Text Prompts
 
 
-* **Entering a Prompt:** Type your app idea freely into the text input field located at the center of the home screen, then click **Start(paper plane) button** or press **Enter**. If you want to write multiple lines, use **Shift \+ Enter** to insert a line break.  
-* **Clear Instructions:** If the prompt is short or abstract, the result will also be generic. Providing more specific details—such as the target users, main colors, and core features—will help the AI generate a much more detailed project plan.  
+* **Entering a Prompt:** Type your app idea freely into the text input field located at the center of the home screen, then click **Start(paper plane) button** or press **Enter**. If you want to write multiple lines, use **Shift + Enter** to insert a line break.  
+* **Clear Instructions:** If the prompt is short or abstract, the result will also be generic. Providing more specific details—such as the target users, main colors, and core features—will help the AI generate a much more detailed app plan.  
 * **Platform Specification:** VibeX generates **web-based applications by default**. If you want a mobile-style application, clearly specify in the prompt: “Design the UI with a **mobile-first layout and touch interactions**.”
 
 >💡 **When Conversations Are Delayed or Interrupted:**  
- If the request is complex, the AI may take **1–2 minutes** during the **Thinking** stage to analyze the project structure. If the response stops midway, simply type **“Continue writing”** and the AI will continue from where it stopped.
+ If the request is complex, the AI may take **1–2 minutes** during the **Thinking** stage to analyze the app structure. If the response stops midway, simply type **“Continue writing”** and the AI will continue from where it stopped.
 
-### 3.2 Refining the Project Plan {#refining-plan}
+### 3.2 Refining the app Plan {#refining-plan}
 #### Requesting Database Schemas, API Lists, and Milestones
 In addition to basic screen layouts, you can ask the AI to generate more detailed technical specifications required for development.
 
@@ -168,14 +168,14 @@ In addition to basic screen layouts, you can ask the AI to generate more detaile
 
 
 
-### 3.3 Understanding the Project Generation Pipeline {#generation-pipeline}
+### 3.3 Understanding the app Generation Pipeline {#generation-pipeline}
 
 #### Starting to Generating Process and status tracking
-Once you are satisfied with the planning conversation, click the **“Generate Project”** button on the right side of the screen to begin creating the actual code.
+Once you are satisfied with the planning conversation, click the **“Generate app”** button on the right side of the screen to begin creating the actual code.
 
 The process involves four stages:
-1. **Starting:** Allocates the project initialization environment.  
-2. **Setting up project:** Installs required packages on the server for frameworks such as **React** or **Vue**.  
+1. **Starting:** Allocates the app initialization environment.  
+2. **Setting up app:** Installs required packages on the server for frameworks such as **React** or **Vue**.  
 3. **Thinking:** The AI analyzes the overall application structure and designs relationships between components.  
 4. **Generating:** The final stage where the AI writes the actual code and renders assets such as logos and images.
 
@@ -206,7 +206,7 @@ The editor is divided into three main tabs, each designed for a specific purpose
 #### Editing with AI Prompts, Auto-Save, and Version Rollback
 * **Auto-Save:** The VibeX editor automatically saves code changes in the background whenever modifications are detected. However, if you refresh the page immediately after manually editing the code—before the preview panel updates—your changes may be lost.  
     
-* **Regeneration and Rollback:** When you enter a prompt to regenerate code, the existing code will be overwritten with the new version. If you prefer the previous result, you can use the **“Rollback”** option in the conversation history panel on the left to revert the project to an earlier state.
+* **Regeneration and Rollback:** When you enter a prompt to regenerate code, the existing code will be overwritten with the new version. If you prefer the previous result, you can use the **“Rollback”** option in the conversation history panel on the left to revert the app to an earlier state.
 
 ![revert](https://cdn.vibe-x.app/images/euPmp6bD4i-1773818711086.png)
 
@@ -292,9 +292,9 @@ When integrating external services, pay close attention to security settings.
 #### Connecting Permissions and Exporting Source Code to Your Repository
 You can export and manage your generated code safely in GitHub. (This feature is available starting from the **Ultra plan**.)
 
-* **Creating a Repository:** After connecting your GitHub account, you can export your project and choose whether to create a **Public** or **Private** repository. If the repository name contains special characters or already exists, creation may fail. We recommend using lowercase letters and hyphens (`-`).  
+* **Creating a Repository:** After connecting your GitHub account, you can export your app and choose whether to create a **Public** or **Private** repository. If the repository name contains special characters or already exists, creation may fail. We recommend using lowercase letters and hyphens (`-`).  
     
-* **Fixing Push Permission Errors:** If a push error occurs because the security authentication token between VibeX and GitHub has expired, go to **Code > GitHub Connection** in your project, **disconnect the GitHub integration**, and then reconnect it to refresh the permissions.
+* **Fixing Push Permission Errors:** If a push error occurs because the security authentication token between VibeX and GitHub has expired, go to **Code > GitHub Connection** in your app, **disconnect the GitHub integration**, and then reconnect it to refresh the permissions.
     
 * **Branch Management:** Currently, VibeX does not support advanced Git operations such as creating additional branches (e.g., `dev`, `feature`) beyond `main`, or running Pull Request (PR) workflows inside the platform.  
     
@@ -311,7 +311,7 @@ You can deploy your app to the web instantly without complex server configuratio
 * **Start Deployment:** Click the **“Publish”** button in the upper-right corner of the editor.  
   Your current code will be built and uploaded to the VibeX hosting server, and a **public URL** will be generated for anyone to access.  
     
-* **Deployment Conditions:** If the AI is still generating code in the background or the project has not been fully saved, the **Publish** button may be disabled. Please wait until the generation process is completely finished before deploying.  
+* **Deployment Conditions:** If the AI is still generating code in the background or the app has not been fully saved, the **Publish** button may be disabled. Please wait until the generation process is completely finished before deploying.  
     
 * **Applying Updates:** Changes made in the editor are **not automatically reflected** on the already deployed live server. After modifying the code, you must click the **“Publish”** button again to overwrite the previous deployment with the new version.  
     
@@ -333,11 +333,11 @@ Instead of using the default VibeX URL, you can connect your own custom domain s
 * **WWW Redirect:** To ensure both [**www.myapp.com**](http://www.myapp.com) and **myapp.com** work correctly, you should register both the **root domain** and the **www subdomain** in your DNS settings.
 
 ### 7.3 Downloading Source Code {#download-source}
-#### Exporting the Project as a ZIP File and Running It Locally
-This feature is useful if you want full ownership of your project code or plan to host it on another platform such as **Vercel**.
+#### Exporting the app as a ZIP File and Running It Locally
+This feature is useful if you want full ownership of your app code or plan to host it on another platform such as **Vercel**.
 
-* **Download as ZIP:** Click **Code > App Download** in your project to download the entire source code as a ZIP file. You can then run the project locally on your computer.
+* **Download as ZIP:** Click **Code > App Download** in your app to download the entire source code as a ZIP file. You can then run the app locally on your computer.
     
-* **Running Locally:** To run the project locally, open the project folder in a terminal and execute: npm install, npm run dev This will install the required dependencies and start the development server.  
+* **Running Locally:** To run the app locally, open the app folder in a terminal and execute: npm install, npm run dev This will install the required dependencies and start the development server.  
     
 * **External Hosting Deployment (e.g., Vercel):** Direct one-click deployment to external platforms such as Vercel is not currently supported within VibeX. Instead, we recommend **pushing your code to your GitHub repository** and then connecting that repository to Vercel for deployment.

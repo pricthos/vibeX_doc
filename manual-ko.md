@@ -98,7 +98,7 @@ VibeX는 사용자의 편의를 위해 일반 이메일 가입과 Google 소셜 
 
 구독 중 X를 모두 사용한 경우 플랜 업그레이드 없이 필요한 만큼 추가 구매가 가능합니다. 1$당 10 X가 지급되며, 별도의 할인이 적용되지 않습니다.
 
-![payment](https://cdn.vibe-x.app/images/dVjARsoUhg-1773727578110.png)
+![payment](https://cdn.vibe-x.app/images/1xgGJwDN73-1774242866464.png)
 
 ### 1.5 크레딧 관련 주의사항
 

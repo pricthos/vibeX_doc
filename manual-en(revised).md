@@ -96,7 +96,7 @@ VibeX supports both standard email registration and Google social login for user
 
 If you have used all of your X while subscribed, you can purchase additional X. You can buy as many as you need without upgrading your plan. For every $1, you will receive 10 X, and no additional discounts apply.
 
-![payment](https://cdn.vibe-x.app/images/LKV89MHpLt-1773727620637.png)
+![payment](https://cdn.vibe-x.app/images/AqfIqzZ1a3-1774242883431.png)
 
 ### 1.5 Credit-Related Precautions
 

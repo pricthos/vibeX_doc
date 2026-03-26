@@ -37,7 +37,9 @@ VibeX supports both standard email registration and Google social login for user
   * Basic AI logo auto-generation  
   * Limited AI image generation  
   * 3D and game creation features supported  
-  * Maximum of 1 app can be created  
+  * Maximum of 1 app can be created
+  * Admin console  
+  * External API integration  
   * Tasks expected to consume more X than your remaining balance will not be executed, and further conversations will be blocked if X is insufficient  
   * Remaining free credits will not roll over when upgrading your plan
 
@@ -54,8 +56,6 @@ VibeX supports both standard email registration and Google social login for user
   * AI image/video generation  
   * Advanced 3D creation  
   * Advanced game creation  
-  * Admin console  
-  * External API integration  
   * Autofix  
   * AI Agent  
   * VibeX proprietary libraries provided (real-time chat, payment integration, Stripe PG)

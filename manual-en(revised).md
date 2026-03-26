@@ -290,7 +290,7 @@ When integrating external services, pay close attention to security settings.
 
 ### 6.3 GitHub Integration {#github-integration}
 #### Connecting Permissions and Exporting Source Code to Your Repository
-You can export and manage your generated code safely in GitHub. (This feature is available starting from the **Ultra plan**.)
+You can export and manage your generated code safely in GitHub. (This feature is available starting from the **Pro plan**.)
 
 * **Creating a Repository:** After connecting your GitHub account, you can export your app and choose whether to create a **Public** or **Private** repository. If the repository name contains special characters or already exists, creation may fail. We recommend using lowercase letters and hyphens (`-`).  
     

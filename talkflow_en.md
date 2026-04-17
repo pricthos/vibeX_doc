@@ -1,7 +1,8 @@
 <!--
 {
   "navGroups": {
-    "installation": "Getting Started",
+    "recommended-initialization-order": "Getting Started",
+    "installation": "Installation",
     "authentication--api-keys": "Authentication",
     "quick-start": "Quick Start",
     "jwt-token-management": "JWT Management",
@@ -22,6 +23,50 @@
 Chat + WebRTC Integrated JavaScript SDK
 
 TalkFlow SDK lets you quickly add **real-time chat** and **video/voice calling** to your web service. No need to implement complex WebSocket connections or WebRTC configurations yourself — build a full-featured chat experience like Kakao Talk with just a few lines of code.
+
+---
+
+## Recommended Initialization Order
+
+The most common source of confusion is the order of **JWT issuance**, **server connection**, and **push permission request**. We recommend the following order for initial setup:
+
+1. Your backend issues a TalkFlow JWT.
+2. Instantiate `TalkFlowClient` in the browser.
+3. Connect with `await client.connect(jwtToken)`.
+4. After connection is complete, call `client.enablePushNotifications()` **inside a user gesture (button click)**.
+
+```javascript
+const client = new TalkFlowClient({
+    apiKey: 'ck-your-client-key',
+    projectId: 'your-project-id'
+});
+
+// 1) Get JWT from your backend
+const jwtToken = await fetchJwtFromYourBackend();
+
+// 2) Connect to TalkFlow
+await client.connect(jwtToken);
+
+// 3) Enable push inside a user action (button click) — recommended
+pushButton.addEventListener('click', () => {
+    client.enablePushNotifications();
+});
+```
+
+### Push Permission Popup — Important Notes
+
+- `Notification.requestPermission()` is safest when called inside a **user gesture (click/tap)** due to browser policy.
+- Especially in Chromium-based browsers, triggering a permission prompt automatically after async connection work may cause the popup to not appear immediately, or only appear after a page reload.
+- For initial onboarding, we recommend calling `enablePushNotifications()` via a button click after connection, rather than using `connect(jwt, { enablePush: true })`.
+
+```javascript
+// ✅ Recommended
+await client.connect(jwtToken);
+enablePushButton.onclick = () => client.enablePushNotifications();
+
+// ⚠️ Not recommended for initial onboarding
+await client.connect(jwtToken, { enablePush: true });
+```
 
 ---
 
@@ -47,6 +92,12 @@ You can add the SDK directly to an HTML file via a script tag — no build step 
 
 <!-- Specific version (recommended for production) -->
 <script src="https://cdn.jsdelivr.net/npm/@vibexnpm/talkflow@1.0.0"></script>
+
+<!-- Major version only (latest 1.x.x) -->
+<script src="https://cdn.jsdelivr.net/npm/@vibexnpm/talkflow@1"></script>
+
+<!-- Major + minor version (latest 1.0.x) -->
+<script src="https://cdn.jsdelivr.net/npm/@vibexnpm/talkflow@1.0"></script>
 
 <script>
     // When loaded via CDN, access via TalkFlowSDK.default
@@ -118,10 +169,10 @@ const client = new TalkFlowClient({
 // Registers user and configures JWT in one call
 await client.registerUser({ userId: 'user-123', nickname: 'John' });
 
-// Start WebSocket connection (begins real-time communication)
+// Start WebSocket connection
 await client.connect();
 
-// Ready to test chat immediately
+// Ready to test chat
 await client.sendTextMessage('room-id', 'Hello!');
 ```
 
@@ -142,18 +193,15 @@ This ensures the Server Key is never exposed to the browser.
 
 #### Backend Implementation Example (Node.js)
 
-Issue a JWT from your server and return it to the browser.
-
 ```javascript
 // Example: Express.js route
 app.post('/api/chat-token', authenticateMyService, async (req, res) => {
-    const { userId, nickname } = req.user; // Already authenticated user
+    const { userId, nickname } = req.user;
 
-    // Request JWT from TalkFlow server
     const response = await fetch('https://chat.apiorbit.net/api/v1/users/auth', {
         method: 'POST',
         headers: {
-            'X-API-KEY': process.env.TALKFLOW_SERVER_KEY,   // sk- key in env var
+            'X-API-KEY': process.env.TALKFLOW_SERVER_KEY,
             'X-PROJECT-ID': process.env.TALKFLOW_PROJECT_ID,
             'Content-Type': 'application/json'
         },
@@ -167,37 +215,33 @@ app.post('/api/chat-token', authenticateMyService, async (req, res) => {
 
 #### Browser SDK Initialization
 
-Initialize the SDK with the JWT received from your server.
-
 ```javascript
 import TalkFlowClient from '@vibexnpm/talkflow';
 
 // Step 1: Get JWT from your backend
 const { jwtToken } = await fetch('/api/chat-token').then(r => r.json());
 
-// Step 2: Initialize SDK with Client Key (safe to expose in browser)
+// Step 2: Initialize SDK with Client Key
 const client = new TalkFlowClient({
     apiKey: 'ck-xxxx',
     projectId: 'your-project-id',
     env: 'production'
 });
 
-// Step 3: Connect with JWT + enable web push
-await client.connect(jwtToken, { enablePush: true });
+// Step 3: Connect with JWT
+await client.connect(jwtToken);
 
 // Step 4: All features are now available
 await client.subscribeRoom('room-id');
-client.setActiveRoom('room-id');   // Auto-mark messages as read in this room
+client.setActiveRoom('room-id');   // Auto-mark messages as read
 ```
 
 #### Re-login (Switching Users)
 
-When switching accounts, close the existing session first, then reconnect.
-
 ```javascript
 await client.logout();
 const { jwtToken } = await fetchNewJwt();
-await client.connect(jwtToken, { enablePush: true });
+await client.connect(jwtToken);
 ```
 
 ---
@@ -207,11 +251,10 @@ await client.connect(jwtToken, { enablePush: true });
 JWTs have an expiry time and must be refreshed periodically. You can swap the token without dropping the connection.
 
 ```javascript
-// Set token manually (before connect(), if needed)
+// Set token manually
 await client.setToken('new-jwt-token');
 
 // Replace token only (keep connection alive)
-// Safe to call for the same user without reconnecting
 client.updateToken('new-jwt-token');
 
 // Check expiry — second arg (60) means "treat as expired if < 60s remaining"
@@ -234,13 +277,13 @@ Once initialized, a single `client` object controls everything. Methods and even
 
 ```javascript
 // All features via one client
-await client.subscribeRoom(roomId);       // Subscribe to a room
-await client.sendMessage(roomId, data);   // Send a message
-client.setActiveRoom(roomId);             // Set currently viewed room
+await client.subscribeRoom(roomId);
+await client.sendMessage(roomId, data);
+client.setActiveRoom(roomId);
 
 // All events via client.on()
-client.on('chatMessage', handler);        // Receive messages
-client.on('messageRead', handler);        // Read receipts
+client.on('chatMessage', handler);
+client.on('messageRead', handler);
 ```
 
 > The `client.xxx()` interface stays stable across SDK versions. No code changes needed when upgrading.
@@ -251,17 +294,17 @@ client.on('messageRead', handler);        // Read receipts
 
 > **Important**: User registration and authentication must be handled **on your server** using the Server Key. Never do this in the browser.
 
-You'll need a user's internal `userId` (UUID) before creating rooms or starting 1:1 chats. Make sure to familiarize yourself with user lookup before working with chat features.
+You'll need a user's internal `userId` (UUID) before creating rooms or starting 1:1 chats. Familiarize yourself with user lookup before working with chat features.
 
 ```javascript
-// Search users by nickname — use this to find someone for 1:1 chat
+// Search users by nickname — use to find someone for 1:1 chat
 const result = await client.searchUsers({
     keyword: 'John',  // Required, max 50 chars
     limit: 20         // Max 50, default 20
 });
-// Use result's userId (internal UUID) when creating chat rooms
+// Use the userId (internal UUID) from results when creating rooms
 
-// Check if a user exists in TalkFlow
+// Check if a user is registered in TalkFlow
 // Pass your service's member ID (externalUserId)
 const exists = await client.checkUserExists('my-service-user-id');
 
@@ -270,7 +313,6 @@ const users = await client.getUsers({ size: 20 });
 
 // Update my profile
 // ⚠️ metadata is fully replaced, not merged
-// Read existing metadata first if you want to preserve fields
 await client.updateMyInfo({
     nickname: 'New Name',                    // Max 100 chars
     profileImageUrl: 'https://...',          // Max 500 chars
@@ -302,17 +344,14 @@ There are two ID types that are often confused. Using the wrong one will cause A
 
 ### Room Management
 
-Create, query, and configure chat rooms.
-
 ```javascript
-// Get my chat room list (for the chat list screen)
+// Get my chat room list
 const rooms = await client.getRooms({ size: 20 });
 
 // Get only group rooms
 const groupRooms = await client.getRooms({ type: 'GROUP' });
 
 // Enter a room — returns room info + recent messages together
-// Use this to load initial data when opening a chat screen
 const roomDetail = await client.getRoom('room-id');
 // roomDetail.room: name, participant count, etc.
 // roomDetail.messages: recent message list
@@ -320,14 +359,13 @@ const roomDetail = await client.getRoom('room-id');
 // Get room info only (no entry processing)
 const roomInfo = await client.getRoomInfo('room-id');
 
-// Create or get existing 1:1 room
-// friendId must be a TalkFlow internal UUID
+// Create or get existing 1:1 room (friendId = TalkFlow internal UUID)
 const room = await client.createOneToOneRoom('friend-user-id');
 
 // Create a group room
 const groupRoom = await client.createGroupRoom({
     roomName: 'Team Chat',                           // Required, max 100 chars
-    description: 'Engineering team chat room',       // Optional, max 500 chars
+    description: 'Engineering team channel',         // Optional, max 500 chars
     invitedUserIds: ['user-id-1', 'user-id-2'],     // TalkFlow UUIDs
     roomType: 'GROUP'                               // Default, can be omitted
 });
@@ -342,9 +380,9 @@ const privateRoom = await client.createGroupRoom({
 });
 
 // Set message retention period
-// Messages older than the period won't be visible (not deleted, just filtered)
+// Messages older than the period won't be visible (filtered, not deleted)
 const tempRoom = await client.createGroupRoom({
-    roomName: "Today's Meeting",
+    roomName: "Today's Standup",
     invitedUserIds: ['user-1'],
     messageRetentionHours: 24     // 1 hour to 1 year (8760h), unlimited if unset
 });
@@ -374,10 +412,9 @@ await client.joinGroupRoom('room-id', 'secret1234');
 await client.subscribeRoom('room-id');
 
 // ★ Set active room — auto-marks new messages as read
-// Call this when the user enters the chat screen
 client.setActiveRoom('room-id');
 
-// When navigating away or returning to list — stop auto read
+// When navigating away — stop auto read
 client.clearActiveRoom();
 
 // Unsubscribe — stays as participant, just stops receiving
@@ -389,6 +426,15 @@ await client.leaveRoom('room-id');
 // Check subscribed rooms
 const subscribedRooms = client.getSubscribedRooms();
 const isSubscribed = client.isSubscribed('room-id');
+
+// Browse public group rooms you haven't joined yet
+const availableRooms = await client.getAvailableGroupRooms();
+
+// List all group rooms in the project
+const allGroupRooms = await client.getAllGroupRooms();
+
+// Unsubscribe from all rooms at once
+client.unsubscribeAllRooms();
 ```
 
 ### Room List Real-time Updates
@@ -425,13 +471,12 @@ client.isRoomListSubscribed();
 client.on('roomListMessage', (event) => {
     moveRoomToTop(event.roomId);
     updateLastMessage(event.roomId, event.lastMessage, event.lastMessageAt);
-    // Don't increment unread for your own messages
     if (event.actorId !== currentUserId) {
         incrementUnread(event.roomId, event.unreadCountDelta);
     }
 });
 
-// New room created — add to list
+// New room created
 client.on('roomListCreated', (event) => {
     addRoomToList(event.roomId);
 });
@@ -462,14 +507,14 @@ client.on('retentionCleanup', ({ roomId, cutoffTime }) => {
 interface RoomListEvent {
     eventType: 'MESSAGE_RECEIVED' | 'ROOM_CREATED' | 'ROOM_JOINED' | 'ROOM_LEFT' | 'ROOM_UPDATED';
     roomId: string;
-    actorId: string;                  // User who triggered the event
-    members?: MemberInfo[];            // Users who joined/left
-    activeParticipantCount?: number;  // Updated participant count
-    unreadCountDelta?: number;        // Unread count increase (usually 1)
-    lastMessage?: string;             // Latest message content or preview
-    lastMessageType?: string;         // 'TEXT' | 'IMAGE' | 'FILE' | 'VIDEO' | 'AUDIO' | 'SYSTEM'
-    lastMessageAt?: string;           // ISO 8601 timestamp
-    timestamp: string;                // Event time (ISO 8601)
+    actorId: string;
+    members?: MemberInfo[];
+    activeParticipantCount?: number;
+    unreadCountDelta?: number;
+    lastMessage?: string;
+    lastMessageType?: string;
+    lastMessageAt?: string;
+    timestamp: string;
 }
 ```
 
@@ -482,15 +527,13 @@ interface RoomListEvent {
 | **Auto read** | When `setActiveRoom()` is set | N/A |
 | **When to call** | Every time a room is opened | Once at app start |
 
-Both subscriptions are independent and can be active simultaneously.
-
 ### Sending Messages
 
 #### sendMessage Parameters
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `messageId` | `string` | Required | Client-generated unique ID. UUID recommended. Retrying with the same ID prevents duplicates |
+| `messageId` | `string` | Required | Client-generated unique ID. UUID recommended. Retrying with same ID prevents duplicates |
 | `message` | `string` | Conditional | Text content. Max 5000 chars |
 | `fileInfos` | `FileInfo[]` | Conditional | File attachment metadata. Max 20 items |
 | `separateFiles` | `boolean` | Optional | Send files as individual messages (default: `true`) |
@@ -502,23 +545,21 @@ Both subscriptions are independent and can be active simultaneously.
 // Simplest way — SDK generates messageId automatically
 await client.sendTextMessage('room-id', 'Hello!');
 
-// Specify messageId manually
-// Retrying with the same ID is safe — server handles deduplication
+// Specify messageId manually (safe to retry with same ID)
 await client.sendMessage('room-id', {
     messageId: crypto.randomUUID(),
     message: 'Hello!'
 });
 
-// File attachment
-// fileUrl must be a pre-uploaded file URL
+// File attachment (fileUrl must be a pre-uploaded URL)
 await client.sendMessage('room-id', {
     messageId: crypto.randomUUID(),
     message: 'Here is the file',
     fileInfos: [{
         fileName: 'image.jpg',
         fileUrl: 'https://your-storage.com/image.jpg',
-        fileSize: 1024,              // in bytes
-        fileType: 'image/jpeg'       // MIME type
+        fileSize: 1024,
+        fileType: 'image/jpeg'
     }]
 });
 
@@ -528,8 +569,6 @@ await client.sendReply('room-id', 'I agree!', 'original-msg-id');
 
 #### separateFiles Behavior
 
-Controls how multiple files are grouped into messages.
-
 | Value | Behavior | Messages created |
 |---|---|---|
 | `true` (default) | One message per file | Same as file count |
@@ -538,17 +577,128 @@ Controls how multiple files are grouped into messages.
 - **KakaoTalk style** (each photo sent individually) → `true` (default)
 - **Instagram carousel style** (multiple photos as one card) → `false`
 
+### File Upload
+
+The SDK provides its own **upload infrastructure**. No need to operate a separate storage server — `client.uploadFile()` / `client.sendFileMessage()` handles upload + metadata extraction (image/video dimensions, video duration, thumbnails, etc.) + message sending in one call.
+
+> The existing approach (uploading externally then constructing `fileInfos` manually) still works. The SDK upload feature is opt-in and won't break existing integrations.
+
+#### API Summary
+
+| Method | Level | Purpose |
+|---|---|---|
+| `client.uploadFile(roomId, file, options)` | Low-level | Upload only. Returns `FileMetaData` → pass to `sendMessage` `fileInfos` manually |
+| `client.sendFileMessage(roomId, files, options)` | High-level | Upload + send in one call. Accepts single file or array |
+| `client.sendMessage(roomId, { fileInfos })` | Existing | Pass externally uploaded metadata directly (unchanged) |
+
+#### Server Processing (Reference)
+
+When a file is uploaded, the server:
+
+1. Validates room participant permission — blocks non-participants (403)
+2. Classifies category — `image/` / `video/` / `audio/` / PDF·docs whitelist
+3. Enforces size limits — **Images 10MB / Video 100MB / Audio 20MB / Documents 20MB**
+4. Validates magic numbers — blocks extension spoofing
+5. Extracts metadata — EXIF/rotation-adjusted width/height, video duration, 1-second thumbnail JPG
+6. Uploads to S3 — isolated at `{projectId}/{roomId}/files/{uuid}.ext`
+7. Returns `FileMetaData`
+
+Supported extensions: `png jpg jpeg gif webp` / `mp4 mov webm` / `mp3 wav ogg m4a aac` / `pdf doc docx xls xlsx ppt pptx zip`
+
+#### `uploadFile()` — Low-level
+
+Use when you want to upload first, show a preview, then send the message on user confirmation.
+
+```javascript
+const meta = await client.uploadFile('room-id', fileInput.files[0], {
+    onProgress: ({ loaded, total, percent }) => {
+        console.log(`${percent}% (${loaded}/${total} bytes)`);
+    }
+});
+
+// Use returned meta directly in fileInfos
+await client.sendMessage('room-id', {
+    messageId: crypto.randomUUID(),
+    fileInfos: [meta],
+    message: 'Here you go'
+});
+```
+
+#### `sendFileMessage()` — High-level
+
+Upload and send in one step. The simplest approach.
+
+```javascript
+// Single file
+await client.sendFileMessage('room-id', file, {
+    message: 'Attaching this file',
+    onUploadProgress: ({ percent }) => updateBar(percent)
+});
+
+// Multiple files (parallel upload)
+await client.sendFileMessage('room-id', [file1, file2, file3], {
+    message: 'Multiple files',
+    onUploadProgress: ({ fileIndex, percent }) => {
+        updateBar(fileIndex, percent);  // Per-file progress bars
+    }
+});
+```
+
+#### options Parameters
+
+| Field | Type | Description |
+|---|---|---|
+| `onProgress` / `onUploadProgress` | `(e) => void` | `e = { loaded, total, percent, fileIndex? }`. `fileIndex` starts at 0 for multiple files |
+| `signal` | `AbortSignal` | Cancel upload. Propagates to all parallel uploads |
+| `message` | `string` | (sendFileMessage) Text content to send alongside |
+| `messageId` | `string` | (sendFileMessage) Message ID (auto-generated if omitted) |
+| `separateFiles` | `boolean` | (sendFileMessage) Whether to send each file as a separate message |
+| `replyToMessageId` | `string` | (sendFileMessage) Original message ID to reply to |
+
+#### Cancellation (AbortController)
+
+```javascript
+const controller = new AbortController();
+
+cancelButton.onclick = () => controller.abort();
+
+try {
+    await client.sendFileMessage('room-id', file, {
+        signal: controller.signal,
+        onUploadProgress: ({ percent }) => updateBar(percent)
+    });
+} catch (error) {
+    if (error.message === 'Upload cancelled') {
+        // User cancelled
+    } else {
+        // Other failure (network, server error, etc.)
+    }
+}
+```
+
+#### Error Codes
+
+| Code | Situation |
+|---|---|
+| `FILE_REQUIRED` | File is empty or missing |
+| `FILE_SIZE_EXCEEDED` | Exceeds category size limit (413) |
+| `UNSUPPORTED_FILE_TYPE` | File type not in whitelist |
+| `INVALID_MAGIC_NUMBER` | File content doesn't match declared type (spoofing blocked) |
+| `FILE_UPLOAD_FAILED` | S3 upload failed |
+| `METADATA_EXTRACT_FAILED` | Metadata extraction failed |
+
+> If **any single file fails**, `sendFileMessage` rejects entirely. Files already uploaded to S3 will be cleaned up by lifecycle policy.
+
 ### Querying, Editing & Deleting Messages
 
 ```javascript
 // Query messages — cursor-based pagination
 const messages = await client.getMessages('room-id', {
-    size: 50,                         // Max 100
+    size: 50,
     lastId: 'last-message-id',
-    lastSortValue: 1673424645123      // epoch ms from previous response
+    lastSortValue: 1673424645123
 });
 
-// Load next page
 if (messages.data.hasNext) {
     const nextPage = await client.getMessages('room-id', {
         size: 50,
@@ -557,13 +707,13 @@ if (messages.data.hasNext) {
     });
 }
 
-// Edit your own message — reflected in real-time on recipient's screen
+// Edit your message — reflected in real-time on recipient's screen
 await client.editMessage('room-id', 'msg-id', 'Updated content');
 
 // Delete for everyone — shows "This message was deleted" on both sides
 await client.deleteMessage('room-id', 'msg-id');
 
-// Delete for yourself only — hidden on your screen, original visible to others
+// Delete for yourself only
 await client.deleteMessage('room-id', 'msg-id', 'SELF');
 ```
 
@@ -571,22 +721,15 @@ await client.deleteMessage('room-id', 'msg-id', 'SELF');
 
 ### Emoji Reactions
 
-React to messages with emoji, just like KakaoTalk reactions.
-
 ```javascript
-// Add reaction
 await client.addReaction('room-id', 'msg-id', '👍');
-
-// Remove your reaction
 await client.removeReaction('room-id', 'msg-id', '👍');
 
-// reactions field example in received message:
+// reactions field example:
 // [{ emoji: '👍', userIds: ['user-1', 'user-2'] }, { emoji: '😂', userIds: ['user-3'] }]
 ```
 
 ### Pinning Messages
-
-Pin important messages to the top of a room. Admin only.
 
 ```javascript
 // Pin a message (admin required)
@@ -600,19 +743,13 @@ await client.unpinMessage('room-id');
 
 ### Typing Indicators
 
-Show "John is typing..." in real-time.
-
 ```javascript
-// Connect to input event
-// SDK auto-stops typing after 3 seconds of inactivity
 inputField.addEventListener('input', () => {
     client.startTyping('room-id');
 });
 
-// sendMessage auto-calls stopTyping internally
-client.stopTyping('room-id'); // Only call manually if needed
+client.stopTyping('room-id'); // Call manually only if needed
 
-// Receive typing events from others (your own events are filtered out)
 client.on('typing', ({ roomId, userId, userName, typing }) => {
     if (typing) {
         showTypingIndicator(`${userName} is typing...`);
@@ -622,17 +759,17 @@ client.on('typing', ({ roomId, userId, userName, typing }) => {
 });
 ```
 
-> Typing events are ephemeral and not saved to DB. Subscribing to a room with `subscribeRoom()` automatically starts typing subscription too.
+> Typing events are ephemeral and not saved to DB. `subscribeRoom()` automatically starts typing subscription too.
 
 ### Room Settings & Invites
 
 ```javascript
-// Update group room settings — admin only, only specified fields are updated
+// Update group room settings — admin only, only specified fields updated
 await client.updateGroupRoom('room-id', {
     roomName: 'New Room Name',
     description: 'Updated description',
     messageRetentionHours: 48,
-    anyoneCanInvite: true        // Allow any participant to invite
+    anyoneCanInvite: true
 });
 
 // Change password (PRIVATE_GROUP only)
@@ -645,8 +782,6 @@ await client.inviteToGroupRoom('room-id', ['user-id-3', 'user-id-4']);
 ---
 
 ## Chat Events
-
-Events available after calling `subscribeRoom()` or `subscribeRoomList()`.
 
 ### Connection Events
 
@@ -678,7 +813,7 @@ Events available after calling `subscribeRoom()` or `subscribeRoomList()`.
 | Event | Description |
 |---|---|
 | `roomListUpdate` | All list events combined (branch by eventType) |
-| `roomListMessage` | New message received → move room to top |
+| `roomListMessage` | New message → move room to top |
 | `roomListCreated` | New room created |
 | `roomListJoined` | Someone joined a room |
 | `roomListLeft` | Someone left a room |
@@ -695,8 +830,6 @@ Receive notifications even when the browser is closed. Uses Firebase Cloud Messa
 
 **Step 1: Place service worker file (one-time)**
 
-The service worker must be served from the domain root due to browser security policy.
-
 ```bash
 cp node_modules/@vibexnpm/talkflow/public/firebase-messaging-sw.js public/
 ```
@@ -709,7 +842,6 @@ await client.connect();
 // Enable push — runs asynchronously in background (non-blocking)
 client.enablePushNotifications();
 
-// Optional: listen for activation complete
 client.on('pushEnabled', () => {
     console.log('Push notifications enabled');
 });
@@ -753,8 +885,6 @@ if (pendingRoomId) {
 
 ### Group Calls
 
-Multi-participant video/voice calls.
-
 ```javascript
 // Start call — triggers camera and microphone permission request
 await client.startCall({
@@ -763,15 +893,12 @@ await client.startCall({
     mediaConstraints: { video: true, audio: true }
 });
 
-// Receive remote stream — assign to video element's srcObject
 client.on('remoteTrack', ({ peerId, track, streams }) => {
     const videoElement = document.getElementById(`video-${peerId}`);
     videoElement.srcObject = streams[0];
 });
 
-// End call
 client.endCall();
-
 const inCall = client.isInCall();
 const participants = client.getParticipants();
 ```
@@ -779,11 +906,10 @@ const participants = client.getParticipants();
 ### Call Room Management
 
 ```javascript
-// Create a call room (optionally linked to a chat room)
 const callRoom = await client.createCallRoom({
     roomName: 'Team Meeting',
     isGroup: true,
-    chatRoomId: 'linked-chat-room-id'  // Optional
+    chatRoomId: 'linked-chat-room-id'
 });
 
 const roomInfo = await client.getCallRoom('call-room-id');
@@ -794,10 +920,8 @@ await client.leaveCallRoomApi('call-room-id');
 ### 1:1 Calls
 
 ```javascript
-// Request a call (targetUserId = TalkFlow internal UUID)
 await client.callUser('target-user-id');
 
-// Handle incoming call
 client.on('incomingCall', async ({ callerId }) => {
     if (confirm('Accept call?')) {
         await client.acceptCall(callerId);
@@ -807,29 +931,23 @@ client.on('incomingCall', async ({ callerId }) => {
 });
 
 client.on('callBusy', ({ userId }) => {
-    alert('The other person is already on a call. Please try again later.');
+    alert('The other person is already on a call.');
 });
 ```
 
 ### Media Controls
 
 ```javascript
-// Toggle camera/mic — returns new state
 const videoEnabled = client.toggleVideo();
 const audioEnabled = client.toggleAudio();
 
 client.setVideoEnabled(false);
 client.setAudioEnabled(true);
 
-// Screen share
 await client.startScreenShare();
 client.stopScreenShare();
 
-// List available devices
 const devices = await client.getDevices();
-// devices.videoInputs, devices.audioInputs, devices.audioOutputs
-
-// Switch device (e.g. front/back camera)
 await client.switchDevice(devices.videoInputs[1].deviceId, 'video');
 
 const localStream = client.getLocalStream();
@@ -846,13 +964,11 @@ const audioSettings = client.getAudioSettings();
 
 ### TURN Server Setup
 
-TURN servers are needed for connections behind firewalls. The SDK handles this automatically in most cases.
-
 ```javascript
 // Option 1: Automatic (recommended)
 await client.startCall({ roomId: 'room-id' });
 
-// Option 2: Pre-initialize — faster connection startup
+// Option 2: Pre-initialize for faster connection
 await client.initializeIceServers();
 await client.startCall({ roomId: 'room-id' });
 
@@ -872,14 +988,24 @@ const client = new TalkFlowClient({
 | Event | Description |
 |---|---|
 | `localStreamStarted` | Local camera/mic stream started |
+| `localStreamStopped` | Local camera/mic stream stopped |
 | `remoteTrack` | Remote video/audio stream received |
 | `callStarted` | Call started |
 | `callEnded` | Call ended |
-| `incomingCall` | Incoming 1:1 call |
-| `callInvitation` | Group call invitation received |
+| `callRequested` | Call request sent |
+| `callAccepted` | Call accepted |
+| `callRejected` | Call rejected |
 | `callBusy` | The other party is already on a call |
+| `incomingCall` | Incoming 1:1 call |
+| `incomingCallWhileBusy` | Incoming call while busy (auto-rejected) |
+| `callInvitation` | Group call invitation received |
 | `userJoined` | Someone joined the call |
 | `userLeft` | Someone left the call |
+| `participantLeft` | Participant left |
+| `participantMediaState` | Participant media state changed |
+| `peerConnected` | Peer connection established |
+| `peerDisconnected` | Peer connection lost |
+| `peerClosed` | Peer connection closed |
 | `screenShareStarted` | Screen sharing started |
 | `screenShareEnded` | Screen sharing ended |
 | `mediaStateChanged` | Camera/mic on/off state changed |
@@ -891,8 +1017,6 @@ const client = new TalkFlowClient({
 ## Reference
 
 ### Configuration Options
-
-All options available when creating a `TalkFlowClient` instance.
 
 ```javascript
 const client = new TalkFlowClient({
@@ -908,8 +1032,8 @@ const client = new TalkFlowClient({
 
     // Connection
     useSockJS: true,
-    reconnectDelay: 5000,          // Reconnect delay in ms
-    maxReconnectAttempts: 10,      // Max reconnect attempts
+    reconnectDelay: 5000,
+    maxReconnectAttempts: 10,
 
     // Room list
     autoSubscribeRoomList: true,
@@ -936,34 +1060,29 @@ const client = new TalkFlowClient({
 ### State Inspection
 
 ```javascript
-client.hasToken();      // JWT is set (boolean)
-client.isReady();       // Ready to connect
-client.isConnected();   // Currently connected to server
+client.hasToken();
+client.isReady();
+client.isConnected();
 client.getState();      // 'disconnected' | 'connecting' | 'connected' | 'reconnecting' | 'error'
-client.getUserId();     // Current user's TalkFlow internal UUID
-client.isInitialized(); // SDK initialized
+client.getUserId();
+client.isInitialized();
 
-// Full status snapshot (useful for debugging)
 const status = client.getStatus();
 ```
 
 ### Log Level
 
-Use `DEBUG` during development to see detailed SDK internals. Lower to `WARN` or `ERROR` in production.
-
 ```javascript
 import { LogLevel } from '@vibexnpm/talkflow';
 
 client.setLogLevel(LogLevel.DEBUG);  // All logs (recommended for dev)
-client.setLogLevel(LogLevel.INFO);   // Info and above
-client.setLogLevel(LogLevel.WARN);   // Warnings and above (default)
-client.setLogLevel(LogLevel.ERROR);  // Errors only
-client.setLogLevel(LogLevel.NONE);   // No logs
+client.setLogLevel(LogLevel.INFO);
+client.setLogLevel(LogLevel.WARN);   // Default
+client.setLogLevel(LogLevel.ERROR);
+client.setLogLevel(LogLevel.NONE);
 ```
 
 ### Input Constraints
-
-Server-side validation rules. Violations return a 400 error.
 
 #### Users
 
@@ -997,9 +1116,41 @@ Server-side validation rules. Violations return a 400 error.
 | `editMessage` | `message` | Max 5000 chars |
 | `getMessages` | `size` | 1–100 (default 50) |
 
-### Cleanup
+#### Reactions
 
-Always call this when the app closes or a component unmounts. Prevents memory leaks and cleans up server resources.
+| API | Field | Constraint |
+|---|---|---|
+| `addReaction` / `removeReaction` | `emoji` | Emoji character (e.g. `'👍'`, `'😂'`) |
+
+#### WebRTC
+
+| API | Field | Constraint |
+|---|---|---|
+| `startCall` | `roomId` | Required |
+| `startCall` | `isGroup` | Default `false` |
+| `startCall` | `mediaConstraints` | Default `{ video: true, audio: true }` |
+| `callUser` / `acceptCall` | `mediaConstraints` | Default `{ video: true, audio: true }` |
+| `applyVideoConstraints` | `constraints` | `{ width, height, frameRate }` |
+| `switchDevice` | `kind` | `'video'` \| `'audio'` |
+
+#### File Upload
+
+| API | Field | Constraint |
+|---|---|---|
+| `uploadFile` / `sendFileMessage` | Images | Max 10MB |
+| `uploadFile` / `sendFileMessage` | Video | Max 100MB |
+| `uploadFile` / `sendFileMessage` | Audio | Max 20MB |
+| `uploadFile` / `sendFileMessage` | Documents | Max 20MB |
+
+#### Push Notifications
+
+| API | Field | Constraint |
+|---|---|---|
+| `enablePushNotifications` | `firebaseConfig` | Optional. TalkFlow built-in by default (overriding won't send push) |
+| `enablePushNotifications` | `vapidKey` | Optional. TalkFlow built-in by default |
+| `enablePushNotifications` | `serviceWorkerPath` | Optional. Default `'/firebase-messaging-sw.js'` |
+
+### Cleanup
 
 ```javascript
 // Closes WebSocket, ends active calls, removes all subscriptions and listeners

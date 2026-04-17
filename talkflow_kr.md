@@ -1,7 +1,8 @@
 <!--
 {
   "navGroups": {
-    "설치": "시작하기",
+    "권장-초기-설정-순서": "초기 설정",
+    "설치": "설치",
     "인증-및-api-key": "인증",
     "빠른-시작": "빠른 시작",
     "jwt-토큰-관리": "JWT 관리",
@@ -22,6 +23,52 @@
 채팅 + WebRTC 통합 JavaScript SDK
 
 TalkFlow SDK는 여러분의 웹 서비스에 **실시간 채팅**과 **영상/음성 통화** 기능을 빠르게 붙일 수 있게 해주는 도구입니다. 복잡한 WebSocket 연결이나 WebRTC 설정을 직접 구현할 필요 없이, 몇 줄의 코드만으로 카카오톡 같은 채팅 기능을 만들 수 있어요.
+
+---
+
+---
+
+## 권장 초기 설정 순서
+
+고객사에서 가장 많이 헷갈리는 부분은 **JWT 발급**, **서버 연결**, **푸시 권한 요청**의 순서입니다. 초기 연동은 아래 순서를 권장합니다.
+
+1. 고객사 backend가 TalkFlow JWT를 발급합니다.
+2. 브라우저에서 `TalkFlowClient`를 생성합니다.
+3. `await client.connect(jwtToken)`으로 연결합니다.
+4. 연결이 끝난 뒤, **사용자 버튼 클릭**으로 `client.enablePushNotifications()`를 호출합니다.
+
+```javascript
+const client = new TalkFlowClient({
+    apiKey: 'ck-your-client-key',
+    projectId: 'your-project-id'
+});
+
+// 1) 고객사 backend에서 JWT 발급
+const jwtToken = await fetchJwtFromYourBackend();
+
+// 2) TalkFlow 연결
+await client.connect(jwtToken);
+
+// 3) 푸시는 사용자 액션(버튼 클릭) 안에서 활성화 권장
+pushButton.addEventListener('click', () => {
+    client.enablePushNotifications();
+});
+```
+
+### 푸시 권한 팝업 주의사항
+
+- `Notification.requestPermission()`은 브라우저 정책상 **사용자 제스처(클릭/탭)** 안에서 호출하는 것이 가장 안전합니다.
+- 특히 Chrome 계열에서는 비동기 연결 작업이 끝난 뒤 자동으로 권한 요청을 띄우면, 팝업이 바로 안 뜨거나 새로고침 후에만 뜨는 것처럼 보일 수 있습니다.
+- 그래서 초기 온보딩에서는 `connect(jwt, { enablePush: true })` 보다, **연결 완료 후 버튼 클릭으로 `enablePushNotifications()` 호출**을 권장합니다.
+
+```javascript
+// ✅ 권장
+await client.connect(jwtToken);
+enablePushButton.onclick = () => client.enablePushNotifications();
+
+// ⚠️ 초기 온보딩에서는 비권장
+await client.connect(jwtToken, { enablePush: true });
+```
 
 ---
 
@@ -47,6 +94,12 @@ npm install @vibexnpm/talkflow
 
 <!-- 특정 버전 지정 (운영 환경 권장) -->
 <script src="https://cdn.jsdelivr.net/npm/@vibexnpm/talkflow@1.0.0"></script>
+
+<!-- 메이저 버전만 지정 (1.x.x 중 최신) -->
+<script src="https://cdn.jsdelivr.net/npm/@vibexnpm/talkflow@1"></script>
+
+<!-- 마이너 버전까지 지정 (1.0.x 중 최신) -->
+<script src="https://cdn.jsdelivr.net/npm/@vibexnpm/talkflow@1.0"></script>
 
 <script>
     // CDN으로 로드하면 TalkFlowSDK.default로 접근합니다
@@ -389,6 +442,15 @@ const subscribedRooms = client.getSubscribedRooms();
 
 // 특정 방이 구독 중인지 확인
 const isSubscribed = client.isSubscribed('room-id');
+
+// 참가 가능한 공개 그룹 채팅방 조회 (아직 참가하지 않은 방)
+const availableRooms = await client.getAvailableGroupRooms();
+
+// 프로젝트 내 모든 그룹 채팅방 조회
+const allGroupRooms = await client.getAllGroupRooms();
+
+// 모든 채팅방 구독 한 번에 해제
+client.unsubscribeAllRooms();
 ```
 
 ### 채팅방 리스트 실시간 업데이트
@@ -541,6 +603,118 @@ await client.sendReply('room-id', '저도 동의해요!', 'original-msg-id');
 
 - **카카오톡 스타일** (사진을 한 장씩 따로 보여줌) → `true` (기본값)
 - **인스타그램 스타일** (여러 장을 갤러리 카드 하나로 묶음) → `false`
+
+### 파일 업로드
+
+SDK 자체가 **업로드 인프라**를 제공합니다. 고객사가 별도 스토리지 서버를 운영할 필요 없이 `client.uploadFile()` / `client.sendFileMessage()` 한 번 호출로 업로드 + 메타데이터 추출(이미지/비디오 크기, 영상 duration, 썸네일 등) + 메시지 전송이 끝납니다.
+
+> 기존 방식(외부 업로드 후 `fileInfos` 직접 구성)도 그대로 동작합니다. SDK 업로드 기능은 선택이며 기존 연동을 깨지 않습니다.
+
+#### API 요약
+
+| 메서드 | 레벨 | 용도 |
+|---|---|---|
+| `client.uploadFile(roomId, file, options)` | Low-level | 업로드만. `FileMetaData` 반환 → `sendMessage`의 `fileInfos`에 넣어 수동 전송 |
+| `client.sendFileMessage(roomId, files, options)` | High-level | 업로드 + 메시지 전송 통합. 단일 파일 또는 파일 배열 |
+| `client.sendMessage(roomId, { fileInfos })` | 기존 방식 | 외부에서 업로드해 받은 메타를 직접 전송 (변경 없음) |
+
+#### 서버 처리 (참고)
+
+파일이 업로드되면 서버는 아래 순서로 처리합니다.
+
+1. 방 참가자 권한 검증 — 비참가자 차단 (403)
+2. 카테고리 판별 — `image/` / `video/` / `audio/` / PDF·문서류 화이트리스트
+3. 크기 상한 — **이미지 10MB / 비디오 100MB / 오디오 20MB / 문서 20MB**
+4. 매직넘버 검증 — 확장자 위조 차단
+5. 메타 추출 — EXIF/rotation 반영 width/height, 비디오 duration, 1초 지점 썸네일 JPG 생성
+6. S3 업로드 — `{projectId}/{roomId}/files/{uuid}.ext` 경로로 격리
+7. `FileMetaData` 반환
+
+지원 확장자: `png jpg jpeg gif webp` / `mp4 mov webm` / `mp3 wav ogg m4a aac` / `pdf doc docx xls xlsx ppt pptx zip`
+
+#### `uploadFile()` — Low-level
+
+업로드만 하고, 전송 타이밍은 직접 제어할 때 사용합니다. 업로드 완료 후 프리뷰를 먼저 보여주고 사용자가 전송 버튼을 누를 때 메시지를 보내는 UX에 적합해요.
+
+```javascript
+const meta = await client.uploadFile('room-id', fileInput.files[0], {
+    onProgress: ({ loaded, total, percent }) => {
+        console.log(`${percent}% (${loaded}/${total} bytes)`);
+    }
+});
+
+// 반환된 meta를 fileInfos에 그대로 사용
+await client.sendMessage('room-id', {
+    messageId: crypto.randomUUID(),
+    fileInfos: [meta],
+    message: '첨부합니다'
+});
+```
+
+#### `sendFileMessage()` — High-level
+
+업로드와 메시지 전송을 한 번에 처리합니다. 가장 간단한 방법이에요.
+
+```javascript
+// 단일 파일
+await client.sendFileMessage('room-id', file, {
+    message: '첨부합니다',
+    onUploadProgress: ({ percent }) => updateBar(percent)
+});
+
+// 다중 파일 (병렬 업로드)
+await client.sendFileMessage('room-id', [file1, file2, file3], {
+    message: '여러 파일',
+    onUploadProgress: ({ fileIndex, percent }) => {
+        updateBar(fileIndex, percent);  // 파일별 개별 프로그레스 바
+    }
+});
+```
+
+#### options 파라미터
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| `onProgress` / `onUploadProgress` | `(e) => void` | `e = { loaded, total, percent, fileIndex? }`. `fileIndex`는 다중 파일에서 0부터 시작 |
+| `signal` | `AbortSignal` | 업로드 취소. 다중 파일 동시 업로드 시 모든 업로드에 전파 |
+| `message` | `string` | (sendFileMessage) 함께 보낼 텍스트 본문 |
+| `messageId` | `string` | (sendFileMessage) 메시지 ID (미지정 시 자동 생성) |
+| `separateFiles` | `boolean` | (sendFileMessage) 파일별 개별 메시지 분리 여부 |
+| `replyToMessageId` | `string` | (sendFileMessage) 답글 대상 원본 메시지 ID |
+
+#### 업로드 취소 (AbortController)
+
+```javascript
+const controller = new AbortController();
+
+cancelButton.onclick = () => controller.abort();
+
+try {
+    await client.sendFileMessage('room-id', file, {
+        signal: controller.signal,
+        onUploadProgress: ({ percent }) => updateBar(percent)
+    });
+} catch (error) {
+    if (error.message === 'Upload cancelled') {
+        // 사용자가 취소한 경우
+    } else {
+        // 기타 실패 (네트워크, 서버 에러 등)
+    }
+}
+```
+
+#### 주요 에러 코드
+
+| 코드 | 상황 |
+|---|---|
+| `FILE_REQUIRED` | 파일이 비어 있거나 누락됨 |
+| `FILE_SIZE_EXCEEDED` | 카테고리 크기 상한 초과 (413) |
+| `UNSUPPORTED_FILE_TYPE` | 화이트리스트 밖의 파일 타입 |
+| `INVALID_MAGIC_NUMBER` | 확장자와 실제 파일 내용 불일치 (위조 차단) |
+| `FILE_UPLOAD_FAILED` | S3 업로드 실패 |
+| `METADATA_EXTRACT_FAILED` | 메타데이터 추출 실패 |
+
+> 다중 파일 전송 중 **한 파일이라도 실패하면** `sendFileMessage` 전체가 reject됩니다. 이미 S3에 올라간 파일은 라이프사이클 정책으로 주기적으로 정리됩니다.
 
 ### 메시지 조회, 수정, 삭제
 
@@ -879,14 +1053,24 @@ const client = new TalkFlowClient({
 | 이벤트 | 설명 |
 |---|---|
 | `localStreamStarted` | 내 카메라/마이크 스트림 시작됨 |
+| `localStreamStopped` | 내 카메라/마이크 스트림 중지됨 |
 | `remoteTrack` | 상대방의 영상/음성 스트림 수신 |
 | `callStarted` | 통화 시작됨 |
 | `callEnded` | 통화 종료됨 |
-| `incomingCall` | 1:1 수신 통화 |
-| `callInvitation` | 그룹 통화 초대 받음 |
+| `callRequested` | 통화 요청 완료 |
+| `callAccepted` | 통화 수락됨 |
+| `callRejected` | 통화 거절됨 |
 | `callBusy` | 상대방이 이미 통화 중 |
+| `incomingCall` | 1:1 수신 통화 |
+| `incomingCallWhileBusy` | 통화 중 수신 요청 (자동 거절됨) |
+| `callInvitation` | 그룹 통화 초대 받음 |
 | `userJoined` | 통화방에 누군가 입장 |
 | `userLeft` | 통화방에서 누군가 퇴장 |
+| `participantLeft` | 참여자 퇴장 |
+| `participantMediaState` | 참여자 미디어 상태 변경 |
+| `peerConnected` | 피어 연결 완료 |
+| `peerDisconnected` | 피어 연결 해제 |
+| `peerClosed` | 피어 연결 종료 |
 | `screenShareStarted` | 화면 공유 시작 |
 | `screenShareEnded` | 화면 공유 종료 |
 | `mediaStateChanged` | 카메라/마이크 켜짐/꺼짐 상태 변경 |
@@ -1003,6 +1187,40 @@ client.setLogLevel(LogLevel.NONE);   // 로그 완전히 끄기
 | `sendMessage` | `fileInfos` | 최대 20개 |
 | `editMessage` | `message` | 최대 5000자 |
 | `getMessages` | `size` | 1~100 (기본 50) |
+
+#### 리액션
+
+| API | 필드 | 제약 |
+|---|---|---|
+| `addReaction` / `removeReaction` | `emoji` | 이모지 문자 (예: `'👍'`, `'😂'`) |
+
+#### WebRTC
+
+| API | 필드 | 제약 |
+|---|---|---|
+| `startCall` | `roomId` | 필수 |
+| `startCall` | `isGroup` | 기본 `false` |
+| `startCall` | `mediaConstraints` | 기본 `{ video: true, audio: true }` |
+| `callUser` / `acceptCall` | `mediaConstraints` | 기본 `{ video: true, audio: true }` |
+| `applyVideoConstraints` | `constraints` | `{ width, height, frameRate }` |
+| `switchDevice` | `kind` | `'video'` \| `'audio'` |
+
+#### 파일 업로드
+
+| API | 필드 | 제약 |
+|---|---|---|
+| `uploadFile` / `sendFileMessage` | 이미지 | 최대 10MB |
+| `uploadFile` / `sendFileMessage` | 비디오 | 최대 100MB |
+| `uploadFile` / `sendFileMessage` | 오디오 | 최대 20MB |
+| `uploadFile` / `sendFileMessage` | 문서 | 최대 20MB |
+
+#### 푸시 알림
+
+| API | 필드 | 제약 |
+|---|---|---|
+| `enablePushNotifications` | `firebaseConfig` | 선택. 기본은 TalkFlow 내장 (덮어써도 발송 안 됨) |
+| `enablePushNotifications` | `vapidKey` | 선택. 기본은 TalkFlow 내장 |
+| `enablePushNotifications` | `serviceWorkerPath` | 선택. 기본 `'/firebase-messaging-sw.js'` |
 
 ### 리소스 정리
 
